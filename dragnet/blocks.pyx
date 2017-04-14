@@ -478,7 +478,12 @@ cdef class PartialBlock:
             else:
                 t = cetree.tailOf(ele)
             if t is not None:
-                self.text.push_back(t.encode('utf-8'))
+                if len(t):
+                    t = t.strip()
+                    if len(t) and t[-1] not in [".", ",", ":", "!", "?"]:
+                        t += "."
+                    if len(t):
+                        self.text.push_back(t.encode('utf-8'))
         except UnicodeDecodeError:
             pass
 
